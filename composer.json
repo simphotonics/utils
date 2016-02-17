@@ -1,0 +1,40 @@
+{
+    "name": "simphotonics/utils",
+    "type": "library",
+    "description": "String and array utility functions.",
+    "keywords": ["string", "array", "timer"],
+    "license": "MIT",
+    "homepage": "http://github.com/simphotonics/utils",
+    "support": {
+        "issues": "https://github.com/simphotonics/utils/issues",
+        "source": "https://github.com/simphotonics/utils"
+    },
+    "authors": [
+        {
+            "name": "D Reschner",
+            "email": "git@simphotonics.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.5.9"
+    },
+    "require-dev": {
+        "phpunit": ">=5.2.5"
+    },
+    "autoload": {
+        "psr-4": {
+            "Simphotonics\\Utils\\": "src/"
+        }
+    },
+    "autoload-dev":{
+        "psr-4": {
+            "Simphotonics\\Utils\\Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0-dev"
+        }
+    },
+    "minimum-stability": "dev"
+}
