@@ -10,6 +10,17 @@ namespace Simphotonics\Utils;
 class FileUtils
 {
     /**
+     * Append to existing file when writing
+     * to file.
+     */
+    const FILE_APPEND = 1;
+
+    /**
+     * Open new file when writing out content.
+     */
+    const FILE_NEW = 0;
+
+    /**
      * Asserts that a file exists and is readable.
      * @param  string $filename File path.
      * @return bool             Returns true on success.
@@ -34,15 +45,33 @@ class FileUtils
      *
      * @throws \RuntimeException if file is not existing or writable.
      */
-    public static function write2file($string, $filename, $mode = 'append')
-    {
-        if (!is_writeable($filename) or is_dir($filename)) {
-            throw \RuntimeException("File $filename is not writable.");
+    public static function write2file(
+        $string,
+        $filename,
+        $mode = self::FILE_APPEND
+    ) {
+    
+        if (is_dir($filename)) {
+            throw new \RuntimeException("Error: $filename is a directory.");
         }
-        if ($mode === 'append') {
-            return file_put_contents($filename, $string, FILE_APPEND);
+        
+        if ($mode) {
+            if (is_writeable($filename)) {
+                return file_put_contents($filename, $string, FILE_APPEND);
+            } else {
+                throw new \RuntimeException(
+                    "Error: Cannot append to $filename. 
+                     The file is either non-existing or not writeable!"
+                );
+            }
         }
-        return file_put_contents($filename, $string, LOCK_EX);
+        // Check if directory is writable
+        $dir = dirname($filename);
+        if (is_writeable($dir)) {
+            return file_put_contents($filename, $string, LOCK_EX);
+        } else {
+            throw new \RuntimeException("Directory: $dir is not writeable!");
+        }
     }
 
 
