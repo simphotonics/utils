@@ -3,7 +3,7 @@
 namespace Simphotonics\Utils;
 
 /**
- * @author D Reschner <d.reschner@simphotonics.com>
+ * @author    D Reschner <d.reschner@simphotonics.com>
  * @copyright 2015 Simphotonics
  * Description: Array helper functions.
  */
@@ -11,19 +11,21 @@ class ArrayUtils
 {
     /**
      * Return the array offset corresponding to an array key.
-     * @param  Array  &$arr
-     * @param  strin|int $key
+     *
+     * @param  Array      $arr
+     * @param  string|int $key
      * @return int
      */
     public static function key2offset(array &$arr, $key)
     {
         return isset($arr[$key]) ? array_flip(array_keys($arr))[$key] : false;
     }
-    
+
     /**
      * Returns the array key corresponding to a given array offset.
-     * @param  Array  &$arr
-     * @param  int $offset
+     *
+     * @param  Array &$arr
+     * @param  int   $offset
      * @return string|int
      */
     public static function offset2key(array &$arr, $offset)
@@ -31,10 +33,11 @@ class ArrayUtils
         $keys = array_keys($arr);
         return isset($keys[$offset]) ? $keys[$offset] : false;
     }
-   
+
     /**
      * Returns an array of random integers: $first <= random int <= $last.
-     * @param  int  $length
+     *
+     * @param  int     $length
      * @param  integer $first
      * @param  integer $last
      * @return array
@@ -49,7 +52,8 @@ class ArrayUtils
 
     /**
      * Returns the mean of numeric array values.
-     * @param  array  $arr
+     *
+     * @param  array $arr
      * @return float|null
      */
     public static function mean(array $arr)
@@ -61,21 +65,24 @@ class ArrayUtils
     }
 
 
-    /**
-     * Returns the standard deviation of numeric array values.
-     * @param  array  $arr
-     * @return float|null
-     */
+     /**
+      * Returns the standard deviation of numeric array values.
+      *
+      * @param  array $arr
+      * @return float|null
+      */
     public static function stDeviation(array $arr)
     {
         if (!is_array($arr) || sizeof($arr) < 2) {
             return null;
         }
         $mean = self::mean($arr);
-        array_walk($arr, function (&$x) use ($mean) {
-            $x = ($x - $mean)*($x -$mean);
+        array_walk(
+            $arr, function (&$x) use ($mean) {
+                $x = ($x - $mean)*($x - $mean);
 
-        });
+            }
+        );
         return sqrt(array_sum($arr)/(sizeof($arr)-1));
     }
 }
