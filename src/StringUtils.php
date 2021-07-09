@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Simphotonics\Utils;
 
 /**
@@ -21,22 +23,22 @@ class StringUtils
      * @param  bool   $bool
      * @return string
      */
-    public static function bool2str($bool = true)
+    public static function bool2str(bool $boolean = true): string
     {
-        if ($bool === false) {
+        if ($boolean === false) {
             return 'FALSE';
         } else {
             return 'TRUE';
         }
     }
-            
+
     /**
      * Encloses and input string with double quotes.
-     * @param  string $val
+     * @param  mixed $val
      * @param  string $q
      * @return string
      */
-    public static function quote($val = "", $q = "\"")
+    public static function quote(mixed $val = "", string $q = "\""): string
     {
         if (is_string($val)) {
             return $q . $val . $q;
@@ -48,15 +50,17 @@ class StringUtils
             return $q . $val . $q;
         }
     }
-        
+
     /**
      * Generic explode function.
      * @param  string $input
      * @param  array $delims Array containing delimiter characters.
      * @return array
      */
-    public static function explodeGeneric($input = '', array $delims = [' '])
-    {
+    public static function explodeGeneric(
+        string $input = '',
+        array $delims = [' ']
+    ): array {
         foreach ($delims as $delim) {
             $input = str_replace($delim, ' ', $input);
         }
@@ -65,21 +69,21 @@ class StringUtils
         $out = explode(' ', $input);
         return $out;
     }
-    
+
     /**
      * Explodes string into lines of text using
      * the characters: Windows \r\n, Unix \n, Mac \r.
      * @param  string  $input
-     * @param  boolean $flag  OMIT_EMPTY_LINES|KEEP_EMPTY_LINES
+     * @param  int $flag  OMIT_EMPTY_LINES|KEEP_EMPTY_LINES
      * @return array
      */
     public static function explodeTextlines(
-        $input,
-        $flag = SELF::OMIT_EMPTY_LINES
-    ) {
-    
+        string $input,
+        int $flag = SELF::OMIT_EMPTY_LINES
+    ): array {
+
         $out = explode(PHP_EOL, $input);
-        if ($flag) {
+        if ($flag == self::KEEP_EMPTY_LINES) {
             return $out;
         }
         // Reject empty words
@@ -90,15 +94,18 @@ class StringUtils
         }
         return $out;
     }
-    
-   /**
-    * Converts preformatted text to pure html encoded text.
-    * (Linebreaks => <br/>, Multiple spaces => n X &nbsp;)
-    * @param  string  $input
-    * @param  boolean $decontaminate
-    * @return string
-    */
-    public static function pre2html($input = '', $decontaminate = true)
+
+    /**
+     * Converts preformatted text to pure html encoded text.
+     * (Linebreaks => <br/>, Multiple spaces => n X &nbsp;)
+     * 
+     * @param  string  $input
+     * @param  boolean $decontaminate
+     *
+     * @return string
+     */
+    public static function pre2html(string $input = '',
+    bool $decontaminate = true): string
     {
         // O) Decontaminate
         if ($decontaminate) {
