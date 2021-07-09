@@ -10,13 +10,14 @@ namespace Simphotonics\Utils;
 class ArrayUtils
 {
     /**
-     * Return the array offset corresponding to an array key.
+     * Returns the array offset corresponding to an array key or false
+     * if the key does not exist.
      *
      * @param  Array      $arr
      * @param  string|int $key
-     * @return int
+     * @return int|bool
      */
-    public static function key2offset(array &$arr, $key)
+    public static function key2offset(array &$arr, string|int $key): int|bool
     {
         return isset($arr[$key]) ? array_flip(array_keys($arr))[$key] : false;
     }
@@ -28,22 +29,26 @@ class ArrayUtils
      * @param  int   $offset
      * @return string|int
      */
-    public static function offset2key(array &$arr, $offset)
+    public static function offset2key(array &$arr, int $offset): int|bool
     {
         $keys = array_keys($arr);
         return isset($keys[$offset]) ? $keys[$offset] : false;
     }
 
     /**
-     * Returns an array of random integers: $first <= random int <= $last.
+     * Returns an array containing random integers:
+     * $first <= random int <= $last.
      *
      * @param  int     $length
      * @param  integer $first
      * @param  integer $last
      * @return array
      */
-    public static function randArray($length, $first = 0, $last = 255)
-    {
+    public static function randArray(
+        int $length,
+        int $first = 0,
+        int $last = 255
+    ): array {
         for ($i = 0; $i < $length; $i++) {
             $arr[] = mt_rand($first, $last);
         }
@@ -56,33 +61,33 @@ class ArrayUtils
      * @param  array $arr
      * @return float|null
      */
-    public static function mean(array $arr)
+    public static function mean(array $input): float|null
     {
-        if (!is_array($arr)) {
+        if (!is_array($input) || empty($input)) {
             return null;
         }
-        return array_sum($arr)/sizeof($arr);
+        return array_sum($input) / sizeof($input);
     }
 
 
-     /**
-      * Returns the standard deviation of numeric array values.
-      *
-      * @param  array $arr
-      * @return float|null
-      */
-    public static function stDeviation(array $arr)
+    /**
+     * Returns the standard deviation of numeric array values.
+     *
+     * @param  array $arr
+     * @return float|null
+     */
+    public static function stDeviation(array $arr): float|null
     {
         if (!is_array($arr) || sizeof($arr) < 2) {
             return null;
         }
         $mean = self::mean($arr);
         array_walk(
-            $arr, function (&$x) use ($mean) {
-                $x = ($x - $mean)*($x - $mean);
-
+            $arr,
+            function (&$x) use ($mean) {
+                $x = ($x - $mean) * ($x - $mean);
             }
         );
-        return sqrt(array_sum($arr)/(sizeof($arr)-1));
+        return sqrt(array_sum($arr) / (sizeof($arr) - 1));
     }
 }
