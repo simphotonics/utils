@@ -1,6 +1,3 @@
-# v2.0.2
-Updated changelog.
-
 # v2.0.1
 Amended branch alias.
 
